@@ -1,3 +1,8 @@
+/*
+Contains everything related to any one bunny. 
+This includes various enums (color and sex) as well
+as structure types. 
+*/
 package main
 
 import (
@@ -12,6 +17,7 @@ const (
 	FEMALE
 )
 
+//returns stringified version of bunny sex
 func (s Sex) String() string {
 	var returnString string
 	switch s {
@@ -32,6 +38,7 @@ const (
 	SPOTTED
 )
 
+//returns stringified version of bunny color
 func (c Color) String() string {
 	var returnString string
 	switch c {
