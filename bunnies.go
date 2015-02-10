@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+//enum for sex of bunny
 type Sex int
 
 const (
@@ -29,6 +30,7 @@ func (s Sex) String() string {
 	return returnString
 }
 
+//enum for color of bunny
 type Color int
 
 const (
@@ -43,13 +45,13 @@ func (c Color) String() string {
 	var returnString string
 	switch c {
 	case BROWN:
-		returnString = "Brown"
+		returnString = "brown"
 	case WHITE:
-		returnString = "White"
+		returnString = "white"
 	case BLACK:
-		returnString = "Black"
+		returnString = "black"
 	case SPOTTED:
-		returnString = "Spotted"
+		returnString = "spotted"
 	}
 	return returnString
 }
@@ -86,14 +88,17 @@ func (b *Bunny) SetAge(inputAge int) {
 func (b *Bunny) SetName(inputName string) {
 	b.name = inputName
 }
-func NewBunny() Bunny {
+
+func NewBunny() *Bunny {
 	numberGenerator := rand.New(rand.NewSource(time.Now().UnixNano())) //A straight up number generator dude
 	nameOptions := []string{"Roger", "Gracie", "Bella", "Fluffy", "Snowball", "Penelope", "Dracula"}
 	bunnyGender := Sex(numberGenerator.Int()%2 + 1)
 	bunnyColor := Color(numberGenerator.Int() % 4)
 	bunnyName := nameOptions[numberGenerator.Int()%len(nameOptions)] //Index is a random number from 0-len(nameOptions)-1
 	bunnyAge := numberGenerator.Int()%10 + 1
-	newBunny := Bunny{color: bunnyColor,
+
+	//The new bunny with all the randomly generated features
+	newBunny := &Bunny{color: bunnyColor,
 		gender: bunnyGender,
 		age:    bunnyAge,
 		name:   bunnyName,
