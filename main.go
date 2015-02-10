@@ -53,13 +53,11 @@ func procreate(root *Bunny) *Bunny {
 	if ranger != nil {
 		for ranger.Next != nil {
 			if ranger.Gender() == MALE && ranger.Age() >= 2 {
-				fmt.Println("Another viable male.")
 				viableMales++
 			}
 			ranger = ranger.Next
 		}
 		if ranger.Gender() == MALE && ranger.Age() >= 2 {
-			fmt.Println("Another viable male.")
 			viableMales++
 		}
 	}
@@ -69,13 +67,11 @@ func procreate(root *Bunny) *Bunny {
 	if ranger != nil {
 		for ranger.Next != nil {
 			if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
-				fmt.Println("Another viable female.")
 				viableFemales++
 			}
 			ranger = ranger.Next
 		}
 		if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
-			fmt.Println("Another viable female.")
 			viableFemales++
 		}
 	}
@@ -93,4 +89,34 @@ func procreate(root *Bunny) *Bunny {
 	}
 
 	return root
+}
+
+func killBunny(root *Bunny) {
+	ranger := &Bunny{}
+	ranger = root
+
+	if ranger != nil {
+		if ranger.Age() >= 10 {
+			ranger.Next = ranger.Next.Next
+		}
+		ranger = ranger.Next
+		for ranger.Next != nil {
+			if ranger.Next.Age() >= 10 {
+				ranger.Next = ranger.Next.Next
+			}
+			ranger = ranger.Next
+		}
+	}
+}
+
+func turn(root *Bunny, turnNum int) {
+	if turnNum == 0 {
+		root = createBunnies(5)
+	}
+	if root != nil {
+		printList(root)
+		root = procreate(root)
+		printList(root)
+		killBunny(root)
+	}
 }
