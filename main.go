@@ -91,13 +91,13 @@ func procreate(root *Bunny) *Bunny {
 	return root
 }
 
-func killBunny(root *Bunny) {
+func killBunny(root *Bunny) *Bunny {
 	ranger := &Bunny{}
 	ranger = root
 
 	if ranger != nil {
 		if ranger.Age() >= 10 {
-			ranger.Next = ranger.Next.Next
+			root = ranger.Next
 		}
 		ranger = ranger.Next
 		for ranger.Next != nil {
@@ -107,6 +107,7 @@ func killBunny(root *Bunny) {
 			ranger = ranger.Next
 		}
 	}
+	return root
 }
 
 func turn(root *Bunny, turnNum int) {
@@ -118,5 +119,7 @@ func turn(root *Bunny, turnNum int) {
 		root = procreate(root)
 		printList(root)
 		killBunny(root)
+
+
 	}
 }
