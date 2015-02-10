@@ -15,7 +15,7 @@ func createBunnies(numberOfBunnies int) *Bunny {
 	ranger := &Bunny{}
 	ranger = root // Will move through list
 
-	for i := 0; i < numberOfBunnies - 1; i++ { 
+	for i := 0; i < numberOfBunnies-1; i++ {
 		bunny := NewBunny()
 		ranger.Next = bunny
 		ranger = ranger.Next
@@ -40,4 +40,59 @@ func printList(root *Bunny) {
 //Prints single bunny; used in func printList() for formatting purposes
 func printBunny(inputBunny *Bunny) {
 	fmt.Println(inputBunny.Name(), "is a", inputBunny.Age(), "year(s) old", inputBunny.Gender().String(), "bunny with", inputBunny.Color().String(), "fur.")
+}
+
+//Creates new bunnies based on current make-up of bunnies
+func procreate(root *Bunny) *Bunny {
+	ranger := &Bunny{}
+	var viableMales, viableFemales int
+
+	//Finds number of male bunnies who are able to have children
+	ranger = root
+	if ranger != nil {
+		for ranger.Next != nil {
+			if ranger.Gender() == MALE && ranger.Age() >= 2 {
+				fmt.Println("Another viable male.")
+				viableMales++
+			}
+			ranger = ranger.Next
+		}
+		if ranger.Gender() == MALE && ranger.Age() >= 2 {
+			fmt.Println("Another viable male.")
+			viableMales++
+		}
+	}
+
+	//Finds number of female bunnies who are able to have children
+	ranger = root
+	if ranger != nil {
+		for ranger.Next != nil {
+			if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
+				fmt.Println("Another viable female.")
+				viableFemales++
+			}
+			ranger = ranger.Next
+		}
+		if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
+			fmt.Println("Another viable female.")
+			viableFemales++
+		}
+	}
+
+	//Calculates how many babies there should be in total
+	var numberOfBabies int
+	if viableMales >= 1 {
+		numberOfBabies = viableFemales
+	}
+	//Get to the end of the bunny list
+	ranger = root
+	if ranger != nil {
+		for ranger.Next != nil {
+			ranger = ranger.Next
+		}
+		newListOfBunnies := createBunnies(numberOfBabies) //Create new bunnies
+		ranger.Next = newListOfBunnies                    //Append new list of bunnies to current list of bunnies
+	}
+
+	return root
 }
