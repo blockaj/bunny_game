@@ -1,7 +1,7 @@
 /*
-Contains everything related to any one bunny. 
+Contains everything related to any one bunny.
 This includes various enums (color and sex) as well
-as structure types. 
+as structure types.
 */
 package main
 

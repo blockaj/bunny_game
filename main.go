@@ -6,6 +6,7 @@ import (
 
 func main() {
 	root := createBunnies(5)
+	root = procreate(root)
 	printList(root)
 }
 
@@ -80,10 +81,7 @@ func procreate(root *Bunny) *Bunny {
 	}
 
 	//Calculates how many babies there should be in total
-	var numberOfBabies int
-	if viableMales >= 1 {
-		numberOfBabies = viableFemales
-	}
+	numberOfBabies := viableMales * viableFemales
 	//Get to the end of the bunny list
 	ranger = root
 	if ranger != nil {
