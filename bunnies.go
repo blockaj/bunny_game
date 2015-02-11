@@ -91,10 +91,16 @@ func (b *Bunny) SetName(inputName string) {
 
 func NewBunny() *Bunny {
 	numberGenerator := rand.New(rand.NewSource(time.Now().UnixNano())) //A straight up number generator dude
-	nameOptions := []string{"Roger", "Gracie", "Bella", "Fluffy", "Snowball", "Penelope", "Dracula"}
+	maleNameOptions := []string{"Roger", "Donald", "Ralph", "Fluffy", "Snowball", "Arturio", "Dracula"}
+	femaleNameOptions := []string{"Penelope", "Artemis", "Bella", "Anna", "Sharyl", "Joanne", "Marissa"}
 	bunnyGender := Sex(numberGenerator.Int()%2 + 1)
 	bunnyColor := Color(numberGenerator.Int() % 4)
-	bunnyName := nameOptions[numberGenerator.Int()%len(nameOptions)] //Index is a random number from 0-len(nameOptions)-1
+	if bunnyGender == MALE {
+		bunnyName := maleNameOptions[numberGenerator.Int()%len(maleNameOptions)] //Index is a random number from 0-len(nameOptions)-1
+	} else {
+		bunnyName := femaleNameOptions[numberGenerator.Int()%len(femaleNameOptions)]
+	}
+	
 	bunnyAge := numberGenerator.Int()%10 + 1
 
 	//The new bunny with all the randomly generated features
