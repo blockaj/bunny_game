@@ -106,3 +106,14 @@ func NewBunny() *Bunny {
 
 	return newBunny
 }
+func (b *Bunny) length() int {
+	var length int
+	if b != nil {
+		for b.Next != nil {
+			length++
+			b = b.Next
+		}
+		length++
+	}
+	return length
+}
