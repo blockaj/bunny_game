@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func main() {
-	root := createBunnies(5)
-	root = procreate(root)
-	printList(root)
+	root := &Bunny{}
+	turn(root, 0)
 }
 
 //Creates a certain number of bunnies in linked-list
@@ -84,7 +84,9 @@ func procreate(root *Bunny) *Bunny {
 		for ranger.Next != nil {
 			ranger = ranger.Next
 		}
+		fmt.Println("Creating bunnies:", numberOfBabies)
 		newListOfBunnies := createBunnies(numberOfBabies) //Create new bunnies
+		fmt.Println("Created all bunnies")
 		ranger.Next = newListOfBunnies                    //Append new list of bunnies to current list of bunnies
 	}
 
@@ -101,7 +103,7 @@ func killBunny(root *Bunny) *Bunny {
 		}
 		ranger = ranger.Next
 		for ranger.Next != nil {
-			if ranger.Next.Age() >= 10 {
+			if ranger.Next.Age() >= 10 && ranger.Next.Next != nil {
 				ranger.Next = ranger.Next.Next
 			}
 			ranger = ranger.Next
@@ -111,15 +113,29 @@ func killBunny(root *Bunny) *Bunny {
 }
 
 func turn(root *Bunny, turnNum int) {
+	ranger := &Bunny{}
 	if turnNum == 0 {
+		fmt.Println("Starting creation...")
 		root = createBunnies(5)
+		printList(root)
 	}
 	if root != nil {
-		printList(root)
+		fmt.Println("Starting regular cycle...")
 		root = procreate(root)
 		printList(root)
-		killBunny(root)
-
-
+		root = killBunny(root)
+		fmt.Println("Massacred bunny list")
+		printList(root)
+		ranger = root
+		for ranger.Next != nil {
+			ranger.SetAge(ranger.Age() + 1)
+			ranger = ranger.Next
+			printBunny(ranger)
+		}
+		printList(ranger)
+		ranger.SetAge(ranger.Age() + 1)
+		time.Sleep(1 * time.Second)
+		printBunny(ranger)
+		turn(root, turnNum + 1)
 	}
 }
