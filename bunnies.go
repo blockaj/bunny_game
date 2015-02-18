@@ -97,6 +97,15 @@ func (b *Bunny) SetAge(inputAge int) {
 func (b *Bunny) SetName(inputName string) {
 	b.name = inputName
 }
+func (b *Bunny) ShouldBunnyDie() bool {
+	if b.Age() == 10 && !b.mutant {
+		return true
+	} else if b.Age() == 50 && b.mutant {
+		return true
+	} else {
+		return false
+	}
+}
 
 func GenerateNewBunny() *Bunny {
 	bunnyMutantBool := false
