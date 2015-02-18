@@ -3,16 +3,17 @@ package main
 import (
 	"fmt"
 	"time"
+	"reflect"
 )
 
 //Creates a certain number of bunnies in linked-list
 func createBunnies(numberOfBunnies int) *Bunny {
-	root := NewBunny()
+	root := GenerateNewBunny()
 	ranger := &Bunny{}
 	ranger = root // Will move through list
 
 	for i := 0; i < numberOfBunnies-1; i++ {
-		bunny := NewBunny()
+		bunny := GenerateNewBunny()
 		ranger.Next = bunny
 		ranger = ranger.Next
 		ranger.Next = nil
@@ -93,19 +94,22 @@ func procreate(root *Bunny) *Bunny {
 //Kill off bunnies, a.k.a remove node from linked-list
 func killBunny(root *Bunny) *Bunny {
 	ranger := &Bunny{}
+
 	ranger = root
 	if ranger != nil {
 		if ranger.Age() >= 10 && !ranger.mutant {
-			root = ranger.Next
+			*root = *ranger.Next
 		} else if ranger.mutant && ranger.Age() == 50 {
-			root = ranger.Next
+			*root = *ranger.Next
 		}
-		for ranger.Next != nil {
-			if ranger.Next.Age() >= 10 && !ranger.mutant {
+		for ranger != nil {
+			fmt.Println(*ranger, reflect.ValueOf(ranger.Next))
+			if ranger.Next.Age() == 10 && !ranger.Next.mutant {
 				fmt.Println("Found a bunny that must die.")
-				ranger.Next = ranger.Next.Next
-			} else if ranger.mutant && ranger.Age() == 50 {
-				root = ranger.Next.Next
+				*ranger.Next = *ranger.Next.Next
+
+			} else if ranger.Next.mutant && ranger.Next.Age() == 50 {
+				*ranger.Next = *ranger.Next.Next
 			}
 			ranger = ranger.Next
 		}
@@ -114,7 +118,7 @@ func killBunny(root *Bunny) *Bunny {
 }
 
 //Defines rhythm of game
-func Turn(root *Bunny, turnNum int) {
+func turn(root *Bunny, turnNum int) {
 	ranger := &Bunny{}
 	if turnNum == 0 {
 		fmt.Println("Starting creation...")
@@ -146,6 +150,6 @@ func Turn(root *Bunny, turnNum int) {
 				}
 			}
 		}
-		Turn(root, turnNum+1)
+		turn(root, turnNum+1)
 	}
 }
