@@ -61,53 +61,70 @@ type Bunny struct {
 	color  Color
 	age    int
 	name   string
+	mutant bool
 	Next   *Bunny
 }
 
+//Gender getter
 func (b *Bunny) Gender() Sex {
 	return b.gender
 }
+//Color getter
 func (b *Bunny) Color() Color {
 	return b.color
 }
+//Age getter
 func (b *Bunny) Age() int {
 	return b.age
 }
+//Name getter
 func (b *Bunny) Name() string {
 	return b.name
 }
+//Gender setter
 func (b *Bunny) SetGender(inputGender Sex) {
 	b.gender = inputGender
 }
+//Color setter
 func (b *Bunny) SetColor(inputColor Color) {
 	b.color = inputColor
 }
+//Age setter
 func (b *Bunny) SetAge(inputAge int) {
 	b.age = inputAge
 }
+//Name setter
 func (b *Bunny) SetName(inputName string) {
 	b.name = inputName
 }
 
-func NewBunny() *Bunny {
+func GenerateNewBunny() *Bunny {
+	bunnyMutantBool := false
 	numberGenerator := rand.New(rand.NewSource(time.Now().UnixNano())) //A straight up number generator dude
 	maleNameOptions := []string{"Roger", "Donald", "Ralph", "Fluffy", "Snowball", "Arturio", "Dracula"}
 	femaleNameOptions := []string{"Penelope", "Artemis", "Bella", "Anna", "Sharyl", "Joanne", "Marissa"}
 	bunnyGender := Sex(numberGenerator.Int()%2 + 1)
 	bunnyColor := Color(numberGenerator.Int() % 4)
-	if bunnyGender == MALE {
-		bunnyName := maleNameOptions[numberGenerator.Int()%len(maleNameOptions)] //Index is a random number from 0-len(nameOptions)-1
-	} else {
-		bunnyName := femaleNameOptions[numberGenerator.Int()%len(femaleNameOptions)]
+	bunnyMutant := numberGenerator.Int() % 50
+	if bunnyMutant == 1 {
+		bunnyMutantBool = true
 	}
-	
+	var bunnyName string
+	if bunnyGender == MALE {
+		bunnyName = maleNameOptions[numberGenerator.Int()%len(maleNameOptions)] //Index is a random number from 0-len(nameOptions)-1
+	} else {
+		bunnyName = femaleNameOptions[numberGenerator.Int()%len(femaleNameOptions)]
+	}
+
 	bunnyAge := numberGenerator.Int()%10 + 1
 
 	//The new bunny with all the randomly generated features
-	newBunny := &Bunny{color: bunnyColor,
+	newBunny := &Bunny{
+		color:  bunnyColor,
 		gender: bunnyGender,
 		age:    bunnyAge,
 		name:   bunnyName,
+		mutant: bunnyMutantBool,
 	}
 
 	return newBunny
