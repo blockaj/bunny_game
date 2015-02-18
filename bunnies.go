@@ -81,19 +81,19 @@ func (b *Bunny) Age() int {
 func (b *Bunny) Name() string {
 	return b.name
 }
-//Gender setter
+//Set gender
 func (b *Bunny) SetGender(inputGender Sex) {
 	b.gender = inputGender
 }
-//Color setter
+//Set color
 func (b *Bunny) SetColor(inputColor Color) {
 	b.color = inputColor
 }
-//Age setter
+//Set age
 func (b *Bunny) SetAge(inputAge int) {
 	b.age = inputAge
 }
-//Name setter
+//Set name
 func (b *Bunny) SetName(inputName string) {
 	b.name = inputName
 }
