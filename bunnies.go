@@ -93,7 +93,7 @@ func (b *Bunny) SetColor(inputColor Color) {
 func (b *Bunny) SetAge(inputAge int) {
 	b.age = inputAge
 }
-//Set name
+//SetName
 func (b *Bunny) SetName(inputName string) {
 	b.name = inputName
 }
