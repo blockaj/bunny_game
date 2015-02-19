@@ -43,59 +43,15 @@ func printBunny(inputBunny *Bunny) {
 
 //Creates new bunnies based on current make-up of bunnies
 func procreate(root *Bunny) *Bunny {
-	ranger := &Bunny{}
-	var viableMales, viableFemales int
-
-	//Finds number of male bunnies who are able to have children
-	ranger = root
-	if ranger != nil {
-		for ranger.Next != nil {
-			if ranger.Gender() == MALE && ranger.Age() >= 2 {
-				viableMales++
-			}
-			ranger = ranger.Next
-		}
-		if ranger.Gender() == MALE && ranger.Age() >= 2 {
-			viableMales++
-		}
-	}
-
-	//Finds number of female bunnies who are able to have children
-	ranger = root
-	if ranger != nil {
-		for ranger.Next != nil {
-			if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
-				viableFemales++
-			}
-			ranger = ranger.Next
-		}
-		if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
-			viableFemales++
-		}
-	}
-
-	//Calculates how many babies there should be in total
-	numberOfBabies := viableMales * viableFemales
-	//Get to the end of the bunny list
-	ranger = root
-	if ranger != nil {
-		for ranger.Next != nil {
-			ranger = ranger.Next
-		}
-		fmt.Println("Creating bunnies:", numberOfBabies)
-		newListOfBunnies := createBunnies(numberOfBabies) //Create new bunnies
-		fmt.Println("Created all bunnies")
-		ranger.Next = newListOfBunnies //Append new list of bunnies to current list of bunnies
-	}
-
+	numberOfBabies := root.FindNumberOfBabies()
+	newBorns := createBunnies(numberOfBabies)
+	root = root.AppendBunnyList(newBorns)
 	return root
 }
 
 //Kill off bunnies, a.k.a remove node from linked-list
 func killBunny(root *Bunny) *Bunny {
-	ranger := &Bunny{}
-
-	ranger = root
+	ranger := root
 	if ranger != nil {
 		if ranger.Age() >= 10 && !ranger.mutant {
 			*root = *ranger.Next
@@ -103,13 +59,10 @@ func killBunny(root *Bunny) *Bunny {
 			*root = *ranger.Next
 		}
 		for ranger != nil {
-			fmt.Println(*ranger, reflect.ValueOf(ranger.Next))
-			if ranger.Next.Age() == 10 && !ranger.Next.mutant {
-				fmt.Println("Found a bunny that must die.")
-				*ranger.Next = *ranger.Next.Next
-
-			} else if ranger.Next.mutant && ranger.Next.Age() == 50 {
-				*ranger.Next = *ranger.Next.Next
+			rangerType := reflect.TypeOf(ranger.Next)
+			fmt.Println(reflect.Zero(rangerType).String())
+			if ranger.Next.ShouldBunnyDie() {
+				ranger.Next = ranger.Next.Next
 			}
 			ranger = ranger.Next
 		}
@@ -121,7 +74,7 @@ func killBunny(root *Bunny) *Bunny {
 func turn(root *Bunny, turnNum int) {
 	ranger := &Bunny{}
 	if turnNum == 0 {
-		fmt.Println("Starting creation...")
+		fmt.Println("Starting creation…")
 		root = createBunnies(5)
 		printList(root)
 	}
