@@ -69,30 +69,37 @@ type Bunny struct {
 func (b *Bunny) Gender() Sex {
 	return b.gender
 }
+
 //Color getter
 func (b *Bunny) Color() Color {
 	return b.color
 }
+
 //Age getter
 func (b *Bunny) Age() int {
 	return b.age
 }
+
 //Name getter
 func (b *Bunny) Name() string {
 	return b.name
 }
+
 //Set gender
 func (b *Bunny) SetGender(inputGender Sex) {
 	b.gender = inputGender
 }
+
 //Set color
 func (b *Bunny) SetColor(inputColor Color) {
 	b.color = inputColor
 }
+
 //Set age
 func (b *Bunny) SetAge(inputAge int) {
 	b.age = inputAge
 }
+
 //Set name
 func (b *Bunny) SetName(inputName string) {
 	b.name = inputName
@@ -105,6 +112,46 @@ func (b *Bunny) ShouldBunnyDie() bool {
 	} else {
 		return false
 	}
+}
+func (b *Bunny) AppendBunnyList(root *Bunny) *Bunny {
+	if b != nil {
+		for b.Next != nil {
+			b = b.next
+		}
+		b.Next = root 
+	}
+	return root
+}
+func (b *Bunny) FindNumberOfBabies() int {
+	ranger := b
+	var viableMales, viableFemales int
+
+	if ranger != nil {
+		for ranger.Next != nil {
+			if ranger.Gender() == MALE && ranger.Age() >= 2 {
+				viableMales++
+			}
+			ranger = ranger.Next
+		}
+		if ranger.Gender() == MALE && ranger.Age() >= 2 {
+			viableMales++
+		}
+	}
+
+	ranger = b
+	if ranger != nil {
+		for ranger.Next != nil {
+			if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
+				viableFemales++
+			}
+			ranger = ranger.Next
+		}
+		if ranger.Gender() == FEMALE && ranger.Age() >= 2 {
+			viableFemales++
+		}
+	}
+	numberOfBabies := viableMales * viableFemales
+	return numberOfBabies
 }
 
 func GenerateNewBunny() *Bunny {
