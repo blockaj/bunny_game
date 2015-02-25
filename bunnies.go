@@ -6,6 +6,7 @@ as structure types.
 package main
 
 import (
+	"strconv"
 	"math/rand"
 	"time"
 )
@@ -105,22 +106,25 @@ func (b *Bunny) SetName(inputName string) {
 	b.name = inputName
 }
 func (b *Bunny) ShouldBunnyDie() bool {
+	var returnVal bool
 	if b.Age() == 10 && !b.mutant {
-		return true
+		returnVal = true
 	} else if b.Age() == 50 && b.mutant {
-		return true
+		returnVal = true
 	} else {
-		return false
+		returnVal = false
 	}
+	return returnVal
 }
 func (b *Bunny) AppendBunnyList(root *Bunny) *Bunny {
-	if b != nil {
-		for b.Next != nil {
-			b = b.next
+	ranger := b
+	if ranger != nil {
+		for ranger.Next != nil {
+			ranger = ranger.Next
 		}
-		b.Next = root 
+		ranger.Next = root 
 	}
-	return root
+	return b
 }
 func (b *Bunny) FindNumberOfBabies() int {
 	ranger := b
@@ -155,10 +159,13 @@ func (b *Bunny) FindNumberOfBabies() int {
 }
 
 func GenerateNewBunny() *Bunny {
+	maleNameOptions := []string{"Roger", "Donald", "Ralph", "Fluffy", "Snowball", 
+							   "Arturio", "Dracula", "Barnabus",
+							"Dolph", "Julio", "Voldemort"}
+	femaleNameOptions := []string{"Penelope", "Artemis", "Bella", "Anna", "Sharyl", 
+								 "Joanne", "Marissa", "Rita", "Nora", "Kelly", "Jesus"}
 	bunnyMutantBool := false
 	numberGenerator := rand.New(rand.NewSource(time.Now().UnixNano())) //A straight up number generator dude
-	maleNameOptions := []string{"Roger", "Donald", "Ralph", "Fluffy", "Snowball", "Arturio", "Dracula"}
-	femaleNameOptions := []string{"Penelope", "Artemis", "Bella", "Anna", "Sharyl", "Joanne", "Marissa"}
 	bunnyGender := Sex(numberGenerator.Int()%2 + 1)
 	bunnyColor := Color(numberGenerator.Int() % 4)
 	bunnyMutant := numberGenerator.Int() % 50
@@ -195,4 +202,12 @@ func (b *Bunny) length() int {
 		length++
 	}
 	return length
+}
+//Prints single bunny; used in func printList() for formatting purposes
+func (b *Bunny) String() string {
+	bunnyString := b.Name() + ", " + strconv.Itoa(b.Age()) + " year(s) old, " +
+		b.Gender().String() + ", and " +
+		b.Color().String() + "."
+
+	return bunnyString
 }
